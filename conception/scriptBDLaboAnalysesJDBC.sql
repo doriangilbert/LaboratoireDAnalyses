@@ -1,21 +1,23 @@
 CREATE TABLE IF NOT EXISTS Patient(
    nssPatient BIGINT NOT NULL,
-   nomPatient VARCHAR(50) ,
-   prenomPatient VARCHAR(50) ,
+   nomPatient VARCHAR(50),
+   prenomPatient VARCHAR(50),
+   mdpPatient VARCHAR(50),
    PRIMARY KEY(nssPatient)
 );
 
 CREATE TABLE IF NOT EXISTS Analyse(
    idAnalyse INT NOT NULL AUTO_INCREMENT,
-   nomAnalyse VARCHAR(50) ,
+   nomAnalyse VARCHAR(50),
+   prixAnalyse DECIMAL(15,2),
    PRIMARY KEY(idAnalyse)
 );
 
 CREATE TABLE IF NOT EXISTS Medecin(
    nssMedecin BIGINT NOT NULL,
-   nomMedecin VARCHAR(50) ,
-   prenomMedecin VARCHAR(50) ,
-   salaireMedecin DECIMAL(15,2)  ,
+   nomMedecin VARCHAR(50),
+   prenomMedecin VARCHAR(50),
+   salaireMedecin DECIMAL(15,2),
    PRIMARY KEY(nssMedecin)
 );
 

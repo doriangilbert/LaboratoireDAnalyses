@@ -13,6 +13,8 @@ public class Analyse {
 	private int idAnalyse;
 
 	private String nomAnalyse;
+	
+	private float prixAnalyse;
 
 	private List<Medecin> listeMedecins;
 
@@ -20,9 +22,10 @@ public class Analyse {
 	 * @param idAnalyse
 	 * @param nomAnalyse
 	 */
-	public Analyse(int idAnalyse, String nomAnalyse) {
+	public Analyse(int idAnalyse, String nomAnalyse, float prixAnalyse) {
 		this.idAnalyse = idAnalyse;
 		this.nomAnalyse = nomAnalyse;
+		this.prixAnalyse = prixAnalyse;
 		this.listeMedecins = new ArrayList<>();
 	}
 
@@ -55,6 +58,20 @@ public class Analyse {
 	}
 
 	/**
+	 * @return the prixAnalyse
+	 */
+	public float getPrixAnalyse() {
+		return prixAnalyse;
+	}
+
+	/**
+	 * @param prixAnalyse the prixAnalyse to set
+	 */
+	public void setPrixAnalyse(float prixAnalyse) {
+		this.prixAnalyse = prixAnalyse;
+	}
+
+	/**
 	 * @return the listeMedecins
 	 */
 	public List<Medecin> getListeMedecins() {
@@ -71,17 +88,18 @@ public class Analyse {
 	public void ajouterAListeMedecins(Medecin medecin) {
 		this.listeMedecins.add(medecin);
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Analyse [idAnalyse=" + idAnalyse + ", nomAnalyse=" + nomAnalyse + "]";
+		return "Analyse [idAnalyse=" + idAnalyse + ", nomAnalyse=" + nomAnalyse + ", prixAnalyse=" + prixAnalyse + "]";
 	}
-	
+
 	public static void createTableAnalyse() throws SQLException {
 		System.out.println("Création de la table Analyse.");
 		DatabaseLink.createTable("CREATE TABLE IF NOT EXISTS Analyse("
 				+ "idAnalyse INT NOT NULL AUTO_INCREMENT,"
 				+ "nomAnalyse VARCHAR(50),"
+				+ "prixAnalyse DECIMAL(15,2),"
 				+ "PRIMARY KEY(idAnalyse)"
 				+ ")");
 	}
