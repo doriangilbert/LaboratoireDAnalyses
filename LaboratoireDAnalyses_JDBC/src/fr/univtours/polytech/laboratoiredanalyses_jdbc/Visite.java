@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -90,7 +91,7 @@ public class Visite {
 	 */
 	public void setPatient(Patient patient) throws SQLException {
 		this.patient = patient;
-		this.associerPatient(patient);
+		reserverVisite(this.idVisite, patient.getNssPatient());
 	}
 
 	/**
@@ -154,34 +155,59 @@ public class Visite {
 		prpdStmtInsert.close();
 	}
 	
-	public void associerPatient(Patient patient) throws SQLException {
+	public static boolean reserverVisite(int idVisite, long nssPatient) throws SQLException {
 		// Création d'un objet PreparedStatement permettant d'exécuter la requête SQL
-		PreparedStatement prpdStmtUpdate = DatabaseLink.getConn().prepareStatement("UPDATE Visite SET nssPatient = ? WHERE idVisite = ?");
+		PreparedStatement prpdStmtSelect = DatabaseLink.getConn().prepareStatement("SELECT idVisite FROM Visite WHERE idVisite=? LIMIT 1");
 		// Mise en place du PreparedStatement avec les paramètres
-		prpdStmtUpdate.setLong(1, patient.getNssPatient());
-		prpdStmtUpdate.setInt(2, this.idVisite);
-		// Execution de la requête du PreparedStatement
-		prpdStmtUpdate.executeUpdate();
+		prpdStmtSelect.setInt(1, idVisite);
+		// Execution de la requête du PreparedStatement et stockage du résultat dans un ResultSet
+		ResultSet rs = prpdStmtSelect.executeQuery();
+		if (!rs.next()) {
+			System.out.println("La valeur saisie ne correspond pas à une visite");
+			return false;
+		} else {
+			// Création d'un objet PreparedStatement permettant d'exécuter la requête SQL
+			PreparedStatement prpdStmtUpdate = DatabaseLink.getConn().prepareStatement("UPDATE Visite SET nssPatient = ? WHERE idVisite = ?");
+			// Mise en place du PreparedStatement avec les paramètres
+			prpdStmtUpdate.setLong(1, nssPatient);
+			prpdStmtUpdate.setInt(2, idVisite);
+			// Execution de la requête du PreparedStatement
+			prpdStmtUpdate.executeUpdate();
+			// Libération des ressources liées au PreparedStatement
+			prpdStmtUpdate.close();
+		}
+		// Libération des ressources liées au ResultSet
+		rs.close();
 		// Libération des ressources liées au PreparedStatement
-		prpdStmtUpdate.close();
-		
-		patient.ajouterAListeVisites(this);
+		prpdStmtSelect.close();
+		return true;
 	}
 	
-	public static void afficherListeVisitesDisponibles() throws SQLException {
-		//Création d'un objet Statement permettant d'exécuter la requête SQL
-		Statement stmt = DatabaseLink.getConn().createStatement(); 
-		//Création de la requête qui va sélectionner les lignes dans la table
-		String requete = "SELECT dateVisite, heureVisite, nomAnalyse FROM Visite NATURAL JOIN Analyse WHERE dateVisite >= NOW() AND nssPatient IS NULL";
-		//Exécution de la requête et stockage du résultat dans un objet ResultSet
-		ResultSet rs = stmt.executeQuery(requete);
+	public static boolean afficherListeVisitesDisponibles(int idAnalyse) throws SQLException {
+		// Création d'un objet PreparedStatement permettant d'exécuter la requête SQL
+		PreparedStatement prpdStmtSelect = DatabaseLink.getConn().prepareStatement("SELECT idVisite, dateVisite, heureVisite FROM Visite WHERE dateVisite >= NOW() AND nssPatient IS NULL AND idAnalyse = ?");
+		// Mise en place du PreparedStatement avec les paramètres
+		prpdStmtSelect.setInt(1, idAnalyse);
+		// Execution de la requête du PreparedStatement
+		ResultSet rs = prpdStmtSelect.executeQuery();
+		int compteurLignesResultat = 0;
 		System.out.println("Liste des visites disponibles :");
 		//Parcours du résultat et affichage des lignes
 		while (rs.next())
 		{
-			System.out.println(rs.getDate("dateVisite") + " " + rs.getTime("heureVisite") + " " + rs.getString("nomAnalyse"));
+			System.out.println(rs.getInt("idVisite") + " - " + rs.getDate("dateVisite") + " - " + rs.getTime("heureVisite"));
+			compteurLignesResultat++;
 		}
-		//Libération des ressources liées au statement
-		stmt.close();
+		if (compteurLignesResultat == 0) {
+			System.out.println("Aucune visite disponible.");
+			return false;
+		}
+		// Libération des ressources liées au PreparedStatement
+		prpdStmtSelect.close();
+		return true;
+	}
+	
+	public static void payerVisite(int idVisite, long numCarteBancaire, int cvvCarteBancaire, LocalDate expCarteBancaire) throws SQLException {
+		Paiement.insertIntoPaiement(numCarteBancaire, cvvCarteBancaire, expCarteBancaire, idVisite);
 	}
 }

@@ -29,11 +29,15 @@ public class Main {
 			Medecin medecin2 = new Medecin(369852147369852L, "Pierre", "JACQUES", 5500);
 			
 			Visite visite1 = new Visite(LocalDateTime.of(2023, 12, 5, 9, 30), analyse2);
-			Visite visite2 = new Visite(LocalDateTime.of(2024, 1, 11, 14, 0), analyse3);
-			Visite visite3 = new Visite(LocalDateTime.of(2024, 1, 3, 17, 15), analyse1);
+			Visite visite2 = new Visite(LocalDateTime.of(2024, 1, 3, 14, 0), analyse3);
+			Visite visite3 = new Visite(LocalDateTime.of(2024, 1, 11, 17, 15), analyse1);
+			Visite visite4 = new Visite(LocalDateTime.of(2024, 1, 25, 13, 30), analyse1);
+			Visite visite5 = new Visite(LocalDateTime.of(2024, 1, 25, 15, 20), analyse3);
+			Visite visite6 = new Visite(LocalDateTime.of(2024, 2, 6, 8, 15), analyse2);
+			Visite visite7 = new Visite(LocalDateTime.of(2024, 2, 6, 9, 45), analyse2);
 			
 			visite1.setPatient(patient2);
-			Paiement paiement1 = new Paiement(1234432123144123L, 852, LocalDate.of(2027, 8, 31), visite1);
+			Paiement paiement1 = new Paiement(1234432123144123L, 852, LocalDate.of(2027, 8, 1), visite1);
 			
 			medecin1.autoriserAnalyse(analyse2);
 			medecin2.autoriserAnalyse(analyse1);
@@ -41,15 +45,54 @@ public class Main {
 			
 			//Création du Scanner qui va collecter les entrées de l'utilisateur
 			Scanner scanner = new Scanner(System.in);
-			System.out.print("Saisissez votre numero de sécurité sociale : ");
 			long saisieNss = 0;
+			System.out.print("Saisissez votre numero de sécurité sociale : ");
 			saisieNss = scanner.nextLong();
-			System.out.print("Saisissez votre mot de passe : ");
 			String saisieMdp = "";
+			System.out.print("Saisissez votre mot de passe : ");
 			saisieMdp = scanner.next();
 			if (Patient.verificationIdentifiants(saisieNss, saisieMdp)) {
 				System.out.println("Connecté.");
-				Visite.afficherListeVisitesDisponibles();
+				Analyse.afficherListeAnalyses();
+				int saisieIdAnalyse = 0;
+				System.out.print("Saisissez le numéro correspondant à l'analyse que vous souhaitez réserver : ");
+				saisieIdAnalyse = scanner.nextInt();
+				if(Visite.afficherListeVisitesDisponibles(saisieIdAnalyse)) {
+					int saisieIdVisite = 0;
+					System.out.print("Saisissez le numéro correspondant à la visite que vous souhaitez réserver : ");
+					saisieIdVisite = scanner.nextInt();
+					if(Visite.reserverVisite(saisieIdVisite, saisieNss)) {
+						System.out.println("Visite réservée.");
+						long saisieNumCarteBancaire = 0;
+						System.out.print("Saisissez votre numéro de carte bancaire : ");
+						saisieNumCarteBancaire = scanner.nextLong();
+						int saisieCvvCarteBancaire = 0;
+						System.out.print("Saisissez le CVV de votre carte bancaire : ");
+						saisieCvvCarteBancaire = scanner.nextInt();
+						int saisieMoisExpCarteBancaire = 0;
+						System.out.print("Saisissez le mois d'expiration de votre carte bancaire : ");
+						saisieMoisExpCarteBancaire = scanner.nextInt();
+						if (saisieMoisExpCarteBancaire >= 1 || saisieMoisExpCarteBancaire <= 12) {
+							int saisieAnneeExpCarteBancaire = 0;
+							System.out.print("Saisissez l'année d'expiration de votre carte bancaire : ");
+							saisieAnneeExpCarteBancaire = scanner.nextInt();
+							if (saisieAnneeExpCarteBancaire >= 2000 || saisieAnneeExpCarteBancaire >= LocalDate.now().getYear()) {
+								LocalDate saisieExpCarteBancaire = LocalDate.of(saisieAnneeExpCarteBancaire, saisieMoisExpCarteBancaire, 1);
+								if (saisieExpCarteBancaire.isAfter(LocalDate.now())) {
+									System.out.println("Paiement validé.");
+									Visite.payerVisite(saisieIdVisite, saisieNumCarteBancaire, saisieCvvCarteBancaire, saisieExpCarteBancaire);
+									System.out.println("Merci, bonne journée.");
+								} else {
+									System.out.println("Carte bancaire expirée.");
+								}
+							} else {
+								System.out.println("Année incorrecte.");
+							}
+						} else {
+							System.out.println("Mois incorrect.");
+						}
+					}
+				}
 			}
 			//Libération des ressources liées au scanner
 			scanner.close();

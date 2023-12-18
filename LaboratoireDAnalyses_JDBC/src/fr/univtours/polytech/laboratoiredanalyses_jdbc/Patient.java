@@ -154,6 +154,7 @@ public class Patient {
 		if (rs.next()) {
 			valide = true;
 		} else {
+			System.out.println("Numéro de sécurité sociale ou mot de passe incorrect.");
 			valide = false;
 		}
 		// Libération des ressources liées au PreparedStatement

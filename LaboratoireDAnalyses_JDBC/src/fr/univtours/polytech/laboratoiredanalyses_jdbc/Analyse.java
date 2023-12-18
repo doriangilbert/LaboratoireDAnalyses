@@ -132,4 +132,21 @@ public class Analyse {
 		// Libération des ressources liées au PreparedStatement
 		prpdStmtInsert.close();
 	}
+	
+	public static void afficherListeAnalyses() throws SQLException {
+		//Création d'un objet Statement permettant d'exécuter la requête SQL
+		Statement stmt = DatabaseLink.getConn().createStatement(); 
+		//Création de la requête qui va sélectionner les lignes dans la table
+		String requete = "SELECT idAnalyse, nomAnalyse, prixAnalyse FROM Analyse";
+		//Exécution de la requête et stockage du résultat dans un objet ResultSet
+		ResultSet rs = stmt.executeQuery(requete);
+		System.out.println("Liste des analyses disponibles :");
+		//Parcours du résultat et affichage des lignes
+		while (rs.next())
+		{
+			System.out.println(rs.getInt("idAnalyse") + " - " + rs.getString("nomAnalyse") + " - " + rs.getFloat("prixAnalyse") + "€");
+		}
+		//Libération des ressources liées au statement
+		stmt.close();
+	}
 }
