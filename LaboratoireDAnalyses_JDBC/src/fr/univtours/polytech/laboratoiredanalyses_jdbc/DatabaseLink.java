@@ -3,6 +3,7 @@ package fr.univtours.polytech.laboratoiredanalyses_jdbc;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * @author Dorian GILBERT
@@ -48,7 +49,23 @@ public class DatabaseLink {
 		}
 	}
 	
+	public static void createTable(String requete) throws SQLException {
+		// Création d'un objet Statement permettant d'exécuter la requête SQL
+		Statement stmt = DatabaseLink.getConn().createStatement();
+		// Exécution de la requête
+		stmt.executeUpdate(requete);
+		// Libération des ressources liées au statement
+		stmt.close();
+	}
+	
 	public static void creationTables() throws SQLException {
-		
+		System.out.println("Création des tables ...");
+		Patient.createTablePatient();
+		Analyse.createTableAnalyse();
+		Medecin.createTableMedecin();
+		Visite.createTableVisite();
+		Paiement.createTablePaiement();
+		Medecin.createTableEstAutorise();
+		System.out.println("Tables créées.");
 	}
 }

@@ -1,5 +1,6 @@
 package fr.univtours.polytech.laboratoiredanalyses_jdbc;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 /**
@@ -110,11 +111,21 @@ public class Paiement {
 				+ cvvCarteBancaire + ", expCarteBancaire=" + expCarteBancaire + ", visite=" + visite + "]";
 	}
 	
-	public static void createTablePaiement() {
-		// TODO
+	public static void createTablePaiement() throws SQLException {
+		System.out.println("Création de la table Paiement.");
+		DatabaseLink.createTable("CREATE TABLE IF NOT EXISTS Paiement("
+				+ "idPaiement INT NOT NULL AUTO_INCREMENT,"
+				+ "numCarteBancaire BIGINT,"
+				+ "cvvCarteBancaire INT,"
+				+ "expCarteBancaire DATE,"
+				+ "idVisite INT NOT NULL,"
+				+ "PRIMARY KEY(idPaiement),"
+				+ "UNIQUE(idVisite),"
+				+ "FOREIGN KEY(idVisite) REFERENCES Visite(idVisite)"
+				+ ")");
 	}
 	
-	public static void insertPaiement() {
+	public static void insertIntoPaiement() {
 		// TODO
 	}
 }

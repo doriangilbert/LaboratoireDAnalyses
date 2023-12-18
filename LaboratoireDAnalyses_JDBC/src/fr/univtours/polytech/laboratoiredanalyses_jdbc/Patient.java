@@ -1,5 +1,6 @@
 package fr.univtours.polytech.laboratoiredanalyses_jdbc;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,11 +96,17 @@ public class Patient {
 				+ "]";
 	}
 	
-	public static void createTablePatient() {
-		// TODO
+	public static void createTablePatient() throws SQLException {
+		System.out.println("Création de la table Patient.");
+		DatabaseLink.createTable("CREATE TABLE IF NOT EXISTS Patient("
+				+ "nssPatient BIGINT NOT NULL,"
+				+ "nomPatient VARCHAR(50),"
+				+ "prenomPatient VARCHAR(50),"
+				+ "PRIMARY KEY(nssPatient)"
+				+ ")");
 	}
 	
-	public static void insertPatient() {
+	public static void insertIntoPatient() {
 		// TODO
 	}
 }

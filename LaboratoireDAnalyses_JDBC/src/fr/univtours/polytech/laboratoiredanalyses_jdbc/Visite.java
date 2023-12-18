@@ -1,5 +1,6 @@
 package fr.univtours.polytech.laboratoiredanalyses_jdbc;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 /**
@@ -109,11 +110,21 @@ public class Visite {
 				+ ", paiement=" + paiement + ", analyse=" + analyse + "]";
 	}
 	
-	public static void createTableVisite() {
-		// TODO
+	public static void createTableVisite() throws SQLException {
+		System.out.println("Création de la table Visite.");
+		DatabaseLink.createTable("CREATE TABLE IF NOT EXISTS Visite("
+				+ "idVisite INT NOT NULL AUTO_INCREMENT,"
+				+ "dateVisite DATE,"
+				+ "heureVisite TIME,"
+				+ "idAnalyse INT,"
+				+ "nssPatient BIGINT,"
+				+ "PRIMARY KEY(idVisite),"
+				+ "FOREIGN KEY(idAnalyse) REFERENCES Analyse(idAnalyse),"
+				+ "FOREIGN KEY(nssPatient) REFERENCES Patient(nssPatient)"
+				+ ")");
 	}
 	
-	public static void insertVisite() {
+	public static void insertIntoVisite() {
 		// TODO
 	}
 }

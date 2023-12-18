@@ -1,17 +1,17 @@
-CREATE TABLE Patient(
+CREATE TABLE IF NOT EXISTS Patient(
    nssPatient BIGINT NOT NULL,
    nomPatient VARCHAR(50) ,
    prenomPatient VARCHAR(50) ,
    PRIMARY KEY(nssPatient)
 );
 
-CREATE TABLE Analyse(
+CREATE TABLE IF NOT EXISTS Analyse(
    idAnalyse INT NOT NULL AUTO_INCREMENT,
    nomAnalyse VARCHAR(50) ,
    PRIMARY KEY(idAnalyse)
 );
 
-CREATE TABLE Medecin(
+CREATE TABLE IF NOT EXISTS Medecin(
    nssMedecin BIGINT NOT NULL,
    nomMedecin VARCHAR(50) ,
    prenomMedecin VARCHAR(50) ,
@@ -19,7 +19,7 @@ CREATE TABLE Medecin(
    PRIMARY KEY(nssMedecin)
 );
 
-CREATE TABLE Visite(
+CREATE TABLE IF NOT EXISTS Visite(
    idVisite INT NOT NULL AUTO_INCREMENT,
    dateVisite DATE,
    heureVisite TIME,
@@ -30,7 +30,7 @@ CREATE TABLE Visite(
    FOREIGN KEY(nssPatient) REFERENCES Patient(nssPatient)
 );
 
-CREATE TABLE Paiement(
+CREATE TABLE IF NOT EXISTS Paiement(
    idPaiement INT NOT NULL AUTO_INCREMENT,
    numCarteBancaire BIGINT,
    cvvCarteBancaire INT,
@@ -41,7 +41,7 @@ CREATE TABLE Paiement(
    FOREIGN KEY(idVisite) REFERENCES Visite(idVisite)
 );
 
-CREATE TABLE Est_autorise(
+CREATE TABLE IF NOT EXISTS Est_autorise(
    idAnalyse INT NOT NULL,
    nssMedecin BIGINT NOT NULL,
    PRIMARY KEY(idAnalyse, nssMedecin),

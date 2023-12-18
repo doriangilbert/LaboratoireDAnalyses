@@ -1,5 +1,6 @@
 package fr.univtours.polytech.laboratoiredanalyses_jdbc;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,11 +77,16 @@ public class Analyse {
 		return "Analyse [idAnalyse=" + idAnalyse + ", nomAnalyse=" + nomAnalyse + "]";
 	}
 	
-	public static void createTableAnalyse() {
-		// TODO
+	public static void createTableAnalyse() throws SQLException {
+		System.out.println("Création de la table Analyse.");
+		DatabaseLink.createTable("CREATE TABLE IF NOT EXISTS Analyse("
+				+ "idAnalyse INT NOT NULL AUTO_INCREMENT,"
+				+ "nomAnalyse VARCHAR(50),"
+				+ "PRIMARY KEY(idAnalyse)"
+				+ ")");
 	}
 	
-	public static void insertAnalyse() {
+	public static void insertIntoAnalyse() {
 		// TODO
 	}
 }

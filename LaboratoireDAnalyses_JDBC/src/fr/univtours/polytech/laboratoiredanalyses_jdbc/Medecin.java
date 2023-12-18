@@ -1,5 +1,6 @@
 package fr.univtours.polytech.laboratoiredanalyses_jdbc;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,11 +114,33 @@ public class Medecin {
 				+ ", salaireMedecin=" + salaireMedecin + "]";
 	}
 	
-	public static void createTableMedecin() {
+	public static void createTableMedecin() throws SQLException {
+		System.out.println("Création de la table Medecin.");
+		DatabaseLink.createTable("CREATE TABLE IF NOT EXISTS Medecin("
+				+ "nssMedecin BIGINT NOT NULL,"
+				+ "nomMedecin VARCHAR(50),"
+				+ "prenomMedecin VARCHAR(50),"
+				+ "salaireMedecin DECIMAL(15,2),"
+				+ "PRIMARY KEY(nssMedecin)"
+				+ ")");
+	}
+	
+	public static void insertIntoMedecin() {
 		// TODO
 	}
 	
-	public static void insertMedecin() {
+	public static void createTableEstAutorise() throws SQLException {
+		System.out.println("Création de la table Est_autorise.");
+		DatabaseLink.createTable("CREATE TABLE IF NOT EXISTS Est_autorise("
+				+ "idAnalyse INT NOT NULL,"
+				+ "nssMedecin BIGINT NOT NULL,"
+				+ "PRIMARY KEY(idAnalyse, nssMedecin),"
+				+ "FOREIGN KEY(idAnalyse) REFERENCES Analyse(idAnalyse),"
+				+ "FOREIGN KEY(nssMedecin) REFERENCES Medecin(nssMedecin)"
+				+ ")");
+	}
+	
+	public static void insertIntoEstAutorise() {
 		// TODO
 	}
 }
