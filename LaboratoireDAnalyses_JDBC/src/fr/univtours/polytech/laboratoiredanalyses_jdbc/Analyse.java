@@ -1,6 +1,9 @@
 package fr.univtours.polytech.laboratoiredanalyses_jdbc;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +24,26 @@ public class Analyse {
 	/**
 	 * @param idAnalyse
 	 * @param nomAnalyse
+	 * @throws SQLException 
 	 */
-	public Analyse(int idAnalyse, String nomAnalyse, float prixAnalyse) {
-		this.idAnalyse = idAnalyse;
+	public Analyse(String nomAnalyse, float prixAnalyse) throws SQLException {
 		this.nomAnalyse = nomAnalyse;
 		this.prixAnalyse = prixAnalyse;
 		this.listeMedecins = new ArrayList<>();
+		insertIntoAnalyse(nomAnalyse, prixAnalyse);
+		//Création d'un objet Statement permettant d'exécuter la requête SQL
+		Statement stmt=DatabaseLink.getConn().createStatement(); 
+		//Création de la requête qui va sélectionner les lignes dans la table
+		String requete = "SELECT MAX(idAnalyse) FROM Analyse";
+		//Exécution de la requête et stockage du résultat dans un objet ResulatSet
+		ResultSet rs = stmt.executeQuery(requete);
+		//Parcours du résultat et affichage des lignes
+		while (rs.next())
+		{
+			this.idAnalyse = rs.getInt("MAX(idAnalyse)");
+		}
+		//Libération des ressources liées au statement
+		stmt.close();
 	}
 
 	/**
@@ -104,7 +121,15 @@ public class Analyse {
 				+ ")");
 	}
 	
-	public static void insertIntoAnalyse() {
-		// TODO
+	public static void insertIntoAnalyse(String nomAnalyse, float prixAnalyse) throws SQLException {
+		// Création d'un objet PreparedStatement permettant d'exécuter la requête SQL
+		PreparedStatement prpdStmtInsert = DatabaseLink.getConn().prepareStatement("INSERT IGNORE INTO Analyse(nomAnalyse, prixAnalyse) VALUES (?, ?)");
+		// Mise en place du PreparedStatement avec les paramètres
+		prpdStmtInsert.setString(1, nomAnalyse);
+		prpdStmtInsert.setFloat(2, prixAnalyse);
+		// Execution de la requête du PreparedStatement
+		prpdStmtInsert.executeUpdate();
+		// Libération des ressources liées au PreparedStatement
+		prpdStmtInsert.close();
 	}
 }

@@ -1,5 +1,6 @@
 package fr.univtours.polytech.laboratoiredanalyses_jdbc;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +26,15 @@ public class Medecin {
 	 * @param nomMedecin
 	 * @param prenomMedecin
 	 * @param salaireMedecin
+	 * @throws SQLException 
 	 */
-	public Medecin(long nssMedecin, String nomMedecin, String prenomMedecin, float salaireMedecin) {
+	public Medecin(long nssMedecin, String nomMedecin, String prenomMedecin, float salaireMedecin) throws SQLException {
 		this.nssMedecin = nssMedecin;
 		this.nomMedecin = nomMedecin;
 		this.prenomMedecin = prenomMedecin;
 		this.salaireMedecin = salaireMedecin;
 		this.listeAnalyses = new ArrayList<>();
+		insertIntoMedecin(nssMedecin, nomMedecin, prenomMedecin, salaireMedecin);
 	}
 
 	/**
@@ -125,8 +128,18 @@ public class Medecin {
 				+ ")");
 	}
 	
-	public static void insertIntoMedecin() {
-		// TODO
+	public static void insertIntoMedecin(long nssMedecin, String nomMedecin, String prenomMedecin, float salaireMedecin) throws SQLException {
+		// Création d'un objet PreparedStatement permettant d'exécuter la requête SQL
+		PreparedStatement prpdStmtInsert = DatabaseLink.getConn().prepareStatement("INSERT IGNORE INTO Medecin(nssMedecin, nomMedecin, prenomMedecin, salaireMedecin) VALUES (?, ?, ?, ?)");
+		// Mise en place du PreparedStatement avec les paramètres
+		prpdStmtInsert.setLong(1, nssMedecin);
+		prpdStmtInsert.setString(2, nomMedecin);
+		prpdStmtInsert.setString(3, prenomMedecin);
+		prpdStmtInsert.setFloat(4, salaireMedecin);
+		// Execution de la requête du PreparedStatement
+		prpdStmtInsert.executeUpdate();
+		// Libération des ressources liées au PreparedStatement
+		prpdStmtInsert.close();
 	}
 	
 	public static void createTableEstAutorise() throws SQLException {
@@ -140,7 +153,22 @@ public class Medecin {
 				+ ")");
 	}
 	
-	public static void insertIntoEstAutorise() {
-		// TODO
+	public static void insertIntoEstAutorise(int idAnalyse, long nssMedecin) throws SQLException {
+		// Création d'un objet PreparedStatement permettant d'exécuter la requête SQL
+		PreparedStatement prpdStmtInsert = DatabaseLink.getConn().prepareStatement("INSERT IGNORE INTO Est_autorise(idAnalyse, nssMedecin) VALUES (?, ?)");
+		// Mise en place du PreparedStatement avec les paramètres
+		prpdStmtInsert.setInt(1, idAnalyse);
+		prpdStmtInsert.setLong(2, nssMedecin);
+		// Execution de la requête du PreparedStatement
+		prpdStmtInsert.executeUpdate();
+		// Libération des ressources liées au PreparedStatement
+		prpdStmtInsert.close();
+	}
+	
+	public void autoriserAnalyse(Analyse analyse) throws SQLException {
+		insertIntoEstAutorise(analyse.getIdAnalyse(), this.getNssMedecin());
+		ajouterAListeAnalyses(analyse);
+		analyse.ajouterAListeMedecins(this);
+
 	}
 }

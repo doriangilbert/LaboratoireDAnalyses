@@ -1,6 +1,9 @@
 package fr.univtours.polytech.laboratoiredanalyses_jdbc;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 
 /**
@@ -25,14 +28,28 @@ public class Paiement {
 	 * @param cvvCarteBancaire
 	 * @param expCarteBancaire
 	 * @param visite
+	 * @throws SQLException 
 	 */
-	public Paiement(int idPaiement, long numCarteBancaire, int cvvCarteBancaire, LocalDate expCarteBancaire,
-			Visite visite) {
-		this.idPaiement = idPaiement;
+	public Paiement(long numCarteBancaire, int cvvCarteBancaire, LocalDate expCarteBancaire, Visite visite) throws SQLException {
 		this.numCarteBancaire = numCarteBancaire;
 		this.cvvCarteBancaire = cvvCarteBancaire;
 		this.expCarteBancaire = expCarteBancaire;
 		this.visite = visite;
+		insertIntoPaiement(numCarteBancaire, cvvCarteBancaire, expCarteBancaire, visite.getIdVisite());
+		//Création d'un objet Statement permettant d'exécuter la requête SQL
+		Statement stmt=DatabaseLink.getConn().createStatement(); 
+		//Création de la requête qui va sélectionner les lignes dans la table
+		String requete = "SELECT MAX(idPaiement) FROM Paiement";
+		//Exécution de la requête et stockage du résultat dans un objet ResulatSet
+		ResultSet rs = stmt.executeQuery(requete);
+		//Parcours du résultat et affichage des lignes
+		while (rs.next())
+		{
+			this.idPaiement = rs.getInt("MAX(idPaiement)");
+		}
+		//Libération des ressources liées au statement
+		stmt.close();
+		visite.setPaiement(this);
 	}
 
 	/**
@@ -125,7 +142,17 @@ public class Paiement {
 				+ ")");
 	}
 	
-	public static void insertIntoPaiement() {
-		// TODO
+	public static void insertIntoPaiement(long numCarteBancaire, int cvvCarteBancaire, LocalDate expCarteBancaire, int idVisite) throws SQLException {
+		// Création d'un objet PreparedStatement permettant d'exécuter la requête SQL
+		PreparedStatement prpdStmtInsert = DatabaseLink.getConn().prepareStatement("INSERT IGNORE INTO Paiement(numCarteBancaire, cvvCarteBancaire, expCarteBancaire, idVisite) VALUES (?, ?, ?, ?)");
+		// Mise en place du PreparedStatement avec les paramètres
+		prpdStmtInsert.setLong(1, numCarteBancaire);
+		prpdStmtInsert.setInt(2, cvvCarteBancaire);
+		prpdStmtInsert.setDate(3, java.sql.Date.valueOf(expCarteBancaire));
+		prpdStmtInsert.setInt(4, idVisite);
+		// Execution de la requête du PreparedStatement
+		prpdStmtInsert.executeUpdate();
+		// Libération des ressources liées au PreparedStatement
+		prpdStmtInsert.close();
 	}
 }
