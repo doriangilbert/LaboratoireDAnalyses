@@ -183,28 +183,29 @@ public class Visite {
 		return true;
 	}
 	
-	public static boolean afficherListeVisitesDisponibles(int idAnalyse) throws SQLException {
+	public static int afficherPremiereVisiteDisponible(int idAnalyse) throws SQLException {
 		// Création d'un objet PreparedStatement permettant d'exécuter la requête SQL
-		PreparedStatement prpdStmtSelect = DatabaseLink.getConn().prepareStatement("SELECT idVisite, dateVisite, heureVisite FROM Visite WHERE dateVisite >= NOW() AND nssPatient IS NULL AND idAnalyse = ?");
+		PreparedStatement prpdStmtSelect = DatabaseLink.getConn().prepareStatement("SELECT idVisite, dateVisite, heureVisite FROM laboratoiredanalyses.Visite WHERE dateVisite >= NOW() AND nssPatient IS NULL AND idAnalyse = ? ORDER BY dateVisite LIMIT 1");
 		// Mise en place du PreparedStatement avec les paramètres
 		prpdStmtSelect.setInt(1, idAnalyse);
 		// Execution de la requête du PreparedStatement
 		ResultSet rs = prpdStmtSelect.executeQuery();
+		int idPremiereVisiteDispo = 0;
 		int compteurLignesResultat = 0;
-		System.out.println("Liste des visites disponibles :");
 		//Parcours du résultat et affichage des lignes
 		while (rs.next())
 		{
-			System.out.println(rs.getInt("idVisite") + " - " + rs.getDate("dateVisite") + " - " + rs.getTime("heureVisite"));
+			idPremiereVisiteDispo = rs.getInt("idVisite");
+			System.out.println("La première visite est disponible le " + rs.getDate("dateVisite") + " à " + rs.getTime("heureVisite"));
 			compteurLignesResultat++;
 		}
 		if (compteurLignesResultat == 0) {
 			System.out.println("Aucune visite disponible.");
-			return false;
+			return 0;
 		}
 		// Libération des ressources liées au PreparedStatement
 		prpdStmtSelect.close();
-		return true;
+		return idPremiereVisiteDispo;
 	}
 	
 	public static void payerVisite(int idVisite, long numCarteBancaire, int cvvCarteBancaire, LocalDate expCarteBancaire) throws SQLException {

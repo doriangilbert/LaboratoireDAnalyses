@@ -57,43 +57,46 @@ public class Main {
 				int saisieIdAnalyse = 0;
 				System.out.print("Saisissez le numéro correspondant à l'analyse que vous souhaitez réserver : ");
 				saisieIdAnalyse = scanner.nextInt();
-				if(Visite.afficherListeVisitesDisponibles(saisieIdAnalyse)) {
-					int saisieIdVisite = 0;
-					System.out.print("Saisissez le numéro correspondant à la visite que vous souhaitez réserver : ");
-					saisieIdVisite = scanner.nextInt();
-					if(Visite.reserverVisite(saisieIdVisite, saisieNss)) {
-						System.out.println("Visite réservée.");
-						long saisieNumCarteBancaire = 0;
-						System.out.print("Saisissez votre numéro de carte bancaire : ");
-						saisieNumCarteBancaire = scanner.nextLong();
-						int saisieCvvCarteBancaire = 0;
-						System.out.print("Saisissez le CVV de votre carte bancaire : ");
-						saisieCvvCarteBancaire = scanner.nextInt();
-						int saisieMoisExpCarteBancaire = 0;
-						System.out.print("Saisissez le mois d'expiration de votre carte bancaire : ");
-						saisieMoisExpCarteBancaire = scanner.nextInt();
-						if (saisieMoisExpCarteBancaire >= 1 || saisieMoisExpCarteBancaire <= 12) {
-							int saisieAnneeExpCarteBancaire = 0;
-							System.out.print("Saisissez l'année d'expiration de votre carte bancaire : ");
-							saisieAnneeExpCarteBancaire = scanner.nextInt();
-							if (saisieAnneeExpCarteBancaire >= 2000 || saisieAnneeExpCarteBancaire >= LocalDate.now().getYear()) {
-								LocalDate saisieExpCarteBancaire = LocalDate.of(saisieAnneeExpCarteBancaire, saisieMoisExpCarteBancaire, 1);
-								if (saisieExpCarteBancaire.isAfter(LocalDate.now())) {
-									System.out.println("Paiement validé.");
-									Visite.payerVisite(saisieIdVisite, saisieNumCarteBancaire, saisieCvvCarteBancaire, saisieExpCarteBancaire);
-									System.out.println("Merci, bonne journée.");
+				int idVisite = Visite.afficherPremiereVisiteDisponible(saisieIdAnalyse);
+				if(idVisite != 0) {
+					String saisieDemandeReservationVisite = "";
+					System.out.println("Souhaitez-vous réserver cette visite ? (Saisir 'O' pour résever la visite ou 'N' pour annuler la réservation)");
+					saisieDemandeReservationVisite = scanner.next();
+					if(saisieDemandeReservationVisite.equals("O") || saisieDemandeReservationVisite.equals("o")) {
+						if(Visite.reserverVisite(idVisite, saisieNss)) {
+							System.out.println("Visite réservée.");
+							long saisieNumCarteBancaire = 0;
+							System.out.print("Saisissez votre numéro de carte bancaire : ");
+							saisieNumCarteBancaire = scanner.nextLong();
+							int saisieCvvCarteBancaire = 0;
+							System.out.print("Saisissez le CVV de votre carte bancaire : ");
+							saisieCvvCarteBancaire = scanner.nextInt();
+							int saisieMoisExpCarteBancaire = 0;
+							System.out.print("Saisissez le mois d'expiration de votre carte bancaire : ");
+							saisieMoisExpCarteBancaire = scanner.nextInt();
+							if (saisieMoisExpCarteBancaire >= 1 || saisieMoisExpCarteBancaire <= 12) {
+								int saisieAnneeExpCarteBancaire = 0;
+								System.out.print("Saisissez l'année d'expiration de votre carte bancaire : ");
+								saisieAnneeExpCarteBancaire = scanner.nextInt();
+								if (saisieAnneeExpCarteBancaire >= 2000 || saisieAnneeExpCarteBancaire >= LocalDate.now().getYear()) {
+									LocalDate saisieExpCarteBancaire = LocalDate.of(saisieAnneeExpCarteBancaire, saisieMoisExpCarteBancaire, 1);
+									if (saisieExpCarteBancaire.isAfter(LocalDate.now())) {
+										System.out.println("Paiement validé.");
+										Visite.payerVisite(idVisite, saisieNumCarteBancaire, saisieCvvCarteBancaire, saisieExpCarteBancaire);
+									} else {
+										System.out.println("Carte bancaire expirée.");
+									}
 								} else {
-									System.out.println("Carte bancaire expirée.");
+									System.out.println("Année incorrecte.");
 								}
 							} else {
-								System.out.println("Année incorrecte.");
+								System.out.println("Mois incorrect.");
 							}
-						} else {
-							System.out.println("Mois incorrect.");
 						}
 					}
 				}
 			}
+			System.out.println("Merci, bonne journée.");
 			//Libération des ressources liées au scanner
 			scanner.close();
 			
