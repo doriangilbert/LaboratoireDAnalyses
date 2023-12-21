@@ -1,65 +1,54 @@
 package fr.univtours.polytech.laboratoiredanalyses_hibernate.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
 
 /**
  * @author Dorian GILBERT
  *
  */
 public class DatabaseLink {
-	private static Connection conn = null;
+	// Attribut privé de type Session permettant de stocker la session Hibernate
+	private static Session session = null;
+	
+	private static SessionFactory sessFact = null;
 
 	/**
-	 * @return the conn
+	 * @return the session
 	 */
-	public static Connection getConn() {
-		return conn;
+	public static Session getSession() {
+		return session;
 	}
 
 	/**
-	 * @param conn the conn to set
+	 * @param session the session to set
 	 */
-	public static void setConn(Connection conn) {
-		DatabaseLink.conn = conn;
+	public static void setSession(Session session) {
+		DatabaseLink.session = session;
+	}
+
+	/**
+	 * @return the sessFact
+	 */
+	public static SessionFactory getSessFact() {
+		return sessFact;
+	}
+
+	/**
+	 * @param sessFact the sessFact to set
+	 */
+	public static void setSessFact(SessionFactory sessFact) {
+		DatabaseLink.sessFact = sessFact;
 	}
 
 	/**
 	 * Méthode publique permettant de se connecter à la base de données
-	 * @param databaseUrl
-	 * @param username
-	 * @param password
 	 */
-	public static void connect(String databaseUrl, String username, String password) {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException ex1) {
-			System.out.println("Pilote non trouvé!");
-			System.exit(1);
-		}
-		try {
-			System.out.println("Connexion à la base de données ...");
-			conn = DriverManager.getConnection(databaseUrl, username, password);
-			System.out.println("Base de données connectée.");
-		} catch (SQLException ex2) {
-			System.out.println("Erreur JDBC: " + ex2);
-			System.exit(1);
-		}
-	}
-	
-	public static void createTable(String requete) throws SQLException {
-		// Création d'un objet Statement permettant d'exécuter la requête SQL
-		Statement stmt = DatabaseLink.getConn().createStatement();
-		// Exécution de la requête
-		stmt.executeUpdate(requete);
-		// Libération des ressources liées au statement
-		stmt.close();
-	}
-	
-	public static void creationTables() throws SQLException {
-		System.out.println("Création des tables ...");
-		
+	public static void connect() {
+		// Ouverture de la session Hibernate
+		SessionFactory sessFact = HibernateUtil.getSessionFactory();
+		// Stockage de la session Hibernate à l'attribut privé de la classe
+		session = sessFact.getCurrentSession();
 	}
 }

@@ -10,28 +10,28 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label id="labelTitreReservationVisites" layoutX="142.0" layoutY="54.0" text="Réservation des visites">
+            <Label fx:id="labelTitreReservationVisites" layoutX="142.0" layoutY="54.0" text="Réservation des visites">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label id="labelSousTitreLaboAnalyses" layoutX="202.0" layoutY="115.0" text="Laboratoire d'analyses">
+            <Label fx:id="labelSousTitreLaboAnalyses" layoutX="202.0" layoutY="115.0" text="Laboratoire d'analyses">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label id="labelTextFieldNSS" layoutX="72.0" layoutY="222.0" text="Numéro de sécurité sociale :">
+            <Label fx:id="labelTextFieldNSS" layoutX="72.0" layoutY="222.0" text="Numéro de sécurité sociale :">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField id="textFieldNSS" layoutX="321.0" layoutY="223.0" />
-            <Label id="labelTextFieldMDP" layoutX="181.0" layoutY="286.0" text="Mot de passe :">
+            <TextField fx:id="textFieldNSS" layoutX="321.0" layoutY="223.0" />
+            <Label fx:id="labelTextFieldMDP" layoutX="181.0" layoutY="286.0" text="Mot de passe :">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField id="textFieldMDP" layoutX="321.0" layoutY="287.0" />
+            <TextField fx:id="textFieldMDP" layoutX="321.0" layoutY="287.0" />
          </children>
     </AnchorPane>
   </children>
