@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Query;
 import javax.persistence.Table;
 
 /**
@@ -125,5 +126,26 @@ public class Patient {
 	public String toString() {
 		return "Patient [nssPatient=" + nssPatient + ", nomPatient=" + nomPatient + ", prenomPatient=" + prenomPatient
 				+ ", mdpPatient=" + mdpPatient + "]";
+	}
+
+	public static boolean verificationIdentifiants(long nss, String mdp) {
+		// Requête permettant de récupérer les identifiants du patient dans la base de données si ils existent
+		String strRequete = "SELECT nssPatient FROM Patient WHERE nssPatient = :nss AND mdpPatient = :mdp";
+		DatabaseLink.open();
+		// Création d'un objet de type Query permettant de stocker la requête
+		Query requete = DatabaseLink.getSession().createQuery(strRequete);
+		// Attribution de la valeur à la variable de la requête
+		requete.setParameter("nss", nss);
+		requete.setParameter("mdp", mdp);
+		// Exécution de la requête et stockage du résultat dans une liste d'objets
+		List<Patient> listeResultat = requete.getResultList();
+		DatabaseLink.close();
+		boolean valide = false;
+		if (listeResultat.isEmpty()) {
+			valide = false;
+		} else {
+			valide = true;
+		}
+		return valide;
 	}
 }

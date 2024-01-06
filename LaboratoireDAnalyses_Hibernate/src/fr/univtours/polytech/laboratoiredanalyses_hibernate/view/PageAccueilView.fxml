@@ -1,37 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univtours.polytech.laboratoiredanalyses_hibernate.controller.PageAccueilController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label fx:id="labelTitreReservationVisites" layoutX="142.0" layoutY="54.0" text="Réservation des visites">
+            <Label fx:id="labelTitreReservationVisites" layoutX="142.0" layoutY="43.0" text="Réservation des visites">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label fx:id="labelSousTitreLaboAnalyses" layoutX="202.0" layoutY="115.0" text="Laboratoire d'analyses">
+            <Label fx:id="labelSousTitreLaboAnalyses" layoutX="202.0" layoutY="105.0" text="Laboratoire d'analyses">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label fx:id="labelTextFieldNSS" layoutX="72.0" layoutY="222.0" text="Numéro de sécurité sociale :">
+            <Label fx:id="labelTextFieldNSS" layoutX="72.0" layoutY="182.0" text="Numéro de sécurité sociale :">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="textFieldNSS" layoutX="321.0" layoutY="223.0" />
-            <Label fx:id="labelTextFieldMDP" layoutX="181.0" layoutY="286.0" text="Mot de passe :">
+            <TextField fx:id="textFieldNSS" layoutX="321.0" layoutY="183.0" />
+            <Label fx:id="labelPasswordFieldMDP" layoutX="181.0" layoutY="246.0" text="Mot de passe :">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="textFieldMDP" layoutX="321.0" layoutY="287.0" />
+            <PasswordField fx:id="passwordFieldMDP" layoutX="321.0" layoutY="247.0" />
+            <Button fx:id="buttonSeConnecter" layoutX="257.0" layoutY="318.0" mnemonicParsing="false" text="Se connecter" onAction="#handleButtonSeConnecter">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
          </children>
     </AnchorPane>
   </children>
