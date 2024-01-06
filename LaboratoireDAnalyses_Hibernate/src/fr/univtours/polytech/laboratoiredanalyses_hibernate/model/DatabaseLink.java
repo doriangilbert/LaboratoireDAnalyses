@@ -47,7 +47,7 @@ public class DatabaseLink {
 	 */
 	public static void connect() {
 		// Ouverture de la session Hibernate
-		SessionFactory sessFact = HibernateUtil.getSessionFactory();
+		sessFact = HibernateUtil.getSessionFactory();
 		// Stockage de la session Hibernate à l'attribut privé de la classe
 		session = sessFact.getCurrentSession();
 	}
