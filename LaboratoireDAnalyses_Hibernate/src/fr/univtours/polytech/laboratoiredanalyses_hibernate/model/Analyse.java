@@ -4,26 +4,42 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
 /**
  * @author Dorian GILBERT
  *
  */
-public class Analyse {
 
+@Entity
+@Table(name = "Analyse")
+public class Analyse {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "idAnalyse")
 	private int idAnalyse;
 
+	@Column(name = "nomAnalyse")
 	private String nomAnalyse;
-	
+
+	@Column(name = "prixAnalyse")
 	private float prixAnalyse;
 
+	@ManyToMany(mappedBy = "listeAnalyses")
 	private List<Medecin> listeMedecins;
 
 	/**
-	 * @param idAnalyse
 	 * @param nomAnalyse
-	 * @throws SQLException 
+	 * @param prixAnalyse
+	 * @throws SQLException
 	 */
-	public Analyse(String nomAnalyse, float prixAnalyse) throws SQLException {
+	public Analyse(String nomAnalyse, float prixAnalyse) {
 		this.nomAnalyse = nomAnalyse;
 		this.prixAnalyse = prixAnalyse;
 		this.listeMedecins = new ArrayList<>();
@@ -84,11 +100,11 @@ public class Analyse {
 	public void setListeMedecins(List<Medecin> listeMedecins) {
 		this.listeMedecins = listeMedecins;
 	}
-	
+
 	public void ajouterAListeMedecins(Medecin medecin) {
 		this.listeMedecins.add(medecin);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Analyse [idAnalyse=" + idAnalyse + ", nomAnalyse=" + nomAnalyse + ", prixAnalyse=" + prixAnalyse + "]";

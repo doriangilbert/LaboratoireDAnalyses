@@ -1,33 +1,49 @@
 package fr.univtours.polytech.laboratoiredanalyses_hibernate.model;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * @author Dorian GILBERT
  *
  */
-public class Paiement {
 
+@Entity
+@Table(name = "Paiement")
+public class Paiement {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "idPaiement")
 	private int idPaiement;
 
+	@Column(name = "numCarteBancaire")
 	private long numCarteBancaire;
 
+	@Column(name = "cvvCarteBancaire")
 	private int cvvCarteBancaire;
 
+	@Column(name = "expCarteBancaire")
 	private LocalDate expCarteBancaire;
 
+	@OneToOne
+	@JoinColumn(name = "idVisite")
 	private Visite visite;
 
 	/**
-	 * @param idPaiement
 	 * @param numCarteBancaire
 	 * @param cvvCarteBancaire
 	 * @param expCarteBancaire
 	 * @param visite
-	 * @throws SQLException 
 	 */
-	public Paiement(long numCarteBancaire, int cvvCarteBancaire, LocalDate expCarteBancaire, Visite visite) throws SQLException {
+	public Paiement(long numCarteBancaire, int cvvCarteBancaire, LocalDate expCarteBancaire, Visite visite) {
 		this.numCarteBancaire = numCarteBancaire;
 		this.cvvCarteBancaire = cvvCarteBancaire;
 		this.expCarteBancaire = expCarteBancaire;

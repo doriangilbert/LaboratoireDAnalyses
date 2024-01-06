@@ -1,23 +1,39 @@
 package fr.univtours.polytech.laboratoiredanalyses_hibernate.model;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * @author Dorian GILBERT
  *
  */
-public class Medecin {
 
+@Entity
+@Table(name = "Medecin")
+public class Medecin {
+	@Id
+	@Column(name = "nssMedecin")
 	private long nssMedecin;
 
+	@Column(name = "nomMedecin")
 	private String nomMedecin;
 
+	@Column(name = "prenomMedecin")
 	private String prenomMedecin;
 
+	@Column(name = "salaireMedecin")
 	private float salaireMedecin;
 
+	@ManyToMany
+	@JoinTable(name = "Est_autorise", joinColumns = @JoinColumn(name = "nssMedecin"), inverseJoinColumns = @JoinColumn(name = "idAnalyse"))
 	private List<Analyse> listeAnalyses;
 
 	/**
@@ -25,9 +41,8 @@ public class Medecin {
 	 * @param nomMedecin
 	 * @param prenomMedecin
 	 * @param salaireMedecin
-	 * @throws SQLException 
 	 */
-	public Medecin(long nssMedecin, String nomMedecin, String prenomMedecin, float salaireMedecin) throws SQLException {
+	public Medecin(long nssMedecin, String nomMedecin, String prenomMedecin, float salaireMedecin) {
 		this.nssMedecin = nssMedecin;
 		this.nomMedecin = nomMedecin;
 		this.prenomMedecin = prenomMedecin;
@@ -104,7 +119,7 @@ public class Medecin {
 	public void setListeAnalyses(List<Analyse> listeAnalyses) {
 		this.listeAnalyses = listeAnalyses;
 	}
-	
+
 	public void ajouterAListeAnalyses(Analyse analyse) {
 		this.listeAnalyses.add(analyse);
 	}

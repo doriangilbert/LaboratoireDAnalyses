@@ -1,33 +1,48 @@
 package fr.univtours.polytech.laboratoiredanalyses_hibernate.model;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * @author Dorian GILBERT
  *
  */
+@Entity
+@Table(name = "Visite")
 public class Visite {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "idVisite")
 	private int idVisite;
 
+	@Column(name = "dateHeureVisite")
 	private LocalDateTime dateHeureVisite;
 
+	@ManyToOne
+	@JoinColumn(name = "nssPatient")
 	private Patient patient;
 
+	@OneToOne(mappedBy = "visite")
 	private Paiement paiement;
 
+	@ManyToOne
+	@JoinColumn(name = "idAnalyse")
 	private Analyse analyse;
 
 	/**
-	 * @param idVisite
 	 * @param dateHeureVisite
-	 * @param patient
-	 * @param paiement
 	 * @param analyse
-	 * @throws SQLException 
 	 */
-	public Visite(LocalDateTime dateHeureVisite, Analyse analyse) throws SQLException {
+	public Visite(LocalDateTime dateHeureVisite, Analyse analyse) {
 		this.dateHeureVisite = dateHeureVisite;
 		this.analyse = analyse;
 	}

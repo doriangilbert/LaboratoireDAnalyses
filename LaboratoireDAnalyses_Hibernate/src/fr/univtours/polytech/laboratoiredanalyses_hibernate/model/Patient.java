@@ -1,32 +1,45 @@
 package fr.univtours.polytech.laboratoiredanalyses_hibernate.model;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * @author Dorian GILBERT
  *
  */
-public class Patient {
 
+@Entity
+@Table(name = "Patient")
+public class Patient {
+	@Id
+	@Column(name = "nssPatient")
 	private long nssPatient;
 
+	@Column(name = "nomPatient")
 	private String nomPatient;
 
+	@Column(name = "prenomPatient")
 	private String prenomPatient;
-	
+
+	@Column(name = "mdpPatient")
 	private String mdpPatient;
 
+	@OneToMany(mappedBy = "patient")
 	private List<Visite> listeVisites;
 
 	/**
 	 * @param nssPatient
 	 * @param nomPatient
 	 * @param prenomPatient
-	 * @throws SQLException 
+	 * @param mdpPatient
 	 */
-	public Patient(long nssPatient, String nomPatient, String prenomPatient, String mdpPatient) throws SQLException {
+	public Patient(long nssPatient, String nomPatient, String prenomPatient, String mdpPatient) {
 		this.nssPatient = nssPatient;
 		this.nomPatient = nomPatient;
 		this.prenomPatient = prenomPatient;
@@ -103,11 +116,11 @@ public class Patient {
 	public void setListeVisites(List<Visite> listeVisites) {
 		this.listeVisites = listeVisites;
 	}
-	
+
 	public void ajouterAListeVisites(Visite visite) {
 		this.listeVisites.add(visite);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Patient [nssPatient=" + nssPatient + ", nomPatient=" + nomPatient + ", prenomPatient=" + prenomPatient

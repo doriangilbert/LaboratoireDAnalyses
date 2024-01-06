@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
  * @author Dorian GILBERT
  *
  */
+
 public class DatabaseLink {
 	// Attribut privé de type Session permettant de stocker la session Hibernate
 	private static Session session = null;
