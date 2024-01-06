@@ -76,8 +76,7 @@ public class Main extends Application {
 		Main.primaryStage = primaryStage;
 
 		try {
-			root = FXMLLoader.load(getClass()
-					.getResource("/fr/univtours/polytech/laboratoiredanalyses_hibernate/view/PageAccueilView.fxml"));
+			root = FXMLLoader.load(getClass().getResource("/fr/univtours/polytech/laboratoiredanalyses_hibernate/view/PageAccueilView.fxml"));
 
 			Scene scene = new Scene(root, 640, 400);
 			Main.primaryStage.setTitle("LaboratoireDAnalyses");
