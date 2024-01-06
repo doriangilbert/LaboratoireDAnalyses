@@ -129,4 +129,9 @@ public class Medecin {
 		return "Medecin [nssMedecin=" + nssMedecin + ", nomMedecin=" + nomMedecin + ", prenomMedecin=" + prenomMedecin
 				+ ", salaireMedecin=" + salaireMedecin + "]";
 	}
+	
+	public void autoriserAnalyse(Analyse analyse) {
+		this.listeAnalyses.add(analyse);
+		analyse.getListeMedecins().add(this);
+	}
 }
