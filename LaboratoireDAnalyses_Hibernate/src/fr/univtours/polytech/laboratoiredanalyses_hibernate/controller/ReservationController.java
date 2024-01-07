@@ -36,6 +36,16 @@ public class ReservationController {
 	@FXML
 	private Button buttonReserver;
 	
+	private static float montantAPayer;
+
+	public static float getMontantAPayer() {
+		return montantAPayer;
+	}
+
+	public static void setMontantAPayer(float montantAPayer) {
+		ReservationController.montantAPayer = montantAPayer;
+	}
+
 	@FXML
 	private void initialize() {
 		String strRequete = "SELECT a FROM Analyse a";
@@ -71,7 +81,7 @@ public class ReservationController {
 		}
 		else {
 			for (Visite visite : listeResultat) {
-				labelDate.setText(visite.getDateHeureVisite().toLocalDate().toString());
+				labelDate.setText(visite.getDateHeureVisite().toLocalDate().getDayOfMonth() + "/" + visite.getDateHeureVisite().toLocalDate().getMonthValue() + "/" + visite.getDateHeureVisite().toLocalDate().getYear());
 				labelHeure.setText(visite.getDateHeureVisite().toLocalTime().toString());
 			}
 			buttonReserver.setDisable(false);
@@ -96,7 +106,19 @@ public class ReservationController {
 	
 	@FXML
 	protected void handleButtonReserver(ActionEvent event) throws IOException {
-		System.out.println("Réservation effectuée");
+		montantAPayer = Float.parseFloat(comboBoxAnalyse.getValue().split(" - ")[2].split("€")[0]);
+		try
+		{
+			Main.root = FXMLLoader.load(getClass().getResource("/fr/univtours/polytech/laboratoiredanalyses_hibernate/view/PaiementView.fxml"));
+
+			Scene scene = new Scene(Main.root, 640, 400);
+
+			Main.primaryStage.setScene(scene);
+			Main.primaryStage.show();
+
+		} catch (Exception error) {
+			error.printStackTrace();
+		}
 	}
 	
 }
