@@ -37,6 +37,8 @@ public class ReservationController {
 	private Button buttonReserver;
 	
 	private static float montantAPayer;
+	
+	private static int idVisite;
 
 	public static float getMontantAPayer() {
 		return montantAPayer;
@@ -44,6 +46,14 @@ public class ReservationController {
 
 	public static void setMontantAPayer(float montantAPayer) {
 		ReservationController.montantAPayer = montantAPayer;
+	}
+
+	public static int getIdVisite() {
+		return idVisite;
+	}
+
+	public static void setIdVisite(int idVisite) {
+		ReservationController.idVisite = idVisite;
 	}
 
 	@FXML
@@ -83,6 +93,7 @@ public class ReservationController {
 			for (Visite visite : listeResultat) {
 				labelDate.setText(visite.getDateHeureVisite().toLocalDate().getDayOfMonth() + "/" + visite.getDateHeureVisite().toLocalDate().getMonthValue() + "/" + visite.getDateHeureVisite().toLocalDate().getYear());
 				labelHeure.setText(visite.getDateHeureVisite().toLocalTime().toString());
+				idVisite = visite.getIdVisite();
 			}
 			buttonReserver.setDisable(false);
 		}

@@ -2,6 +2,7 @@ package fr.univtours.polytech.laboratoiredanalyses_hibernate.controller;
 
 import java.time.LocalDate;
 
+import fr.univtours.polytech.laboratoiredanalyses_hibernate.model.Visite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -67,32 +68,38 @@ public class PaiementController {
 	
 	@FXML
 	protected void handleButtonPayer() {
-		if (textFieldNumeroCB.getText().length() != 0 && textFieldCVV.getText().length() != 0 && comboBoxMoisExp.getValue() != null && comboBoxAnneeExp.getValue() != null) {
-			LocalDate saisieExpCarteBancaire = LocalDate.of(Integer.valueOf(comboBoxAnneeExp.getValue()), Integer.valueOf(comboBoxMoisExp.getValue()), 1);
-			if (saisieExpCarteBancaire.isAfter(LocalDate.now())) {
-				//TODO : reserverVisite
-				//TODO : payerVisite
-				
-				Alert alert = new Alert(AlertType.CONFIRMATION, "Paiement validé. Visite réservée. Merci, bonne journée.");
-				alert.showAndWait();
-				try
-				{
-					Main.root = FXMLLoader.load(getClass().getResource("/fr/univtours/polytech/laboratoiredanalyses_hibernate/view/PageAccueilView.fxml"));
+		try {
+			Long.valueOf(textFieldNumeroCB.getText());
+			Integer.valueOf(textFieldCVV.getText());
+			if (textFieldNumeroCB.getText().length() != 0 && textFieldCVV.getText().length() != 0 && comboBoxMoisExp.getValue() != null && comboBoxAnneeExp.getValue() != null) {
+				LocalDate saisieExpCarteBancaire = LocalDate.of(Integer.valueOf(comboBoxAnneeExp.getValue()), Integer.valueOf(comboBoxMoisExp.getValue()), 1);
+				if (saisieExpCarteBancaire.isAfter(LocalDate.now())) {
+					Visite.reserverVisite(ReservationController.getIdVisite(), PageAccueilController.getNssPatient());
+					Visite.payerVisite(ReservationController.getIdVisite(), Long.valueOf(textFieldNumeroCB.getText()), Integer.valueOf(textFieldCVV.getText()), saisieExpCarteBancaire);
+					Alert alert = new Alert(AlertType.CONFIRMATION, "Paiement validé. Visite réservée. Merci, bonne journée.");
+					alert.showAndWait();
+					try
+					{
+						Main.root = FXMLLoader.load(getClass().getResource("/fr/univtours/polytech/laboratoiredanalyses_hibernate/view/PageAccueilView.fxml"));
 
-					Scene scene = new Scene(Main.root, 640, 400);
+						Scene scene = new Scene(Main.root, 640, 400);
 
-					Main.primaryStage.setScene(scene);
-					Main.primaryStage.show();
+						Main.primaryStage.setScene(scene);
+						Main.primaryStage.show();
 
-				} catch (Exception error) {
-					error.printStackTrace();
+					} catch (Exception error) {
+						error.printStackTrace();
+					}
+				} else {
+					Alert alert = new Alert(AlertType.ERROR, "Carte bancaire expirée");
+					alert.showAndWait();
 				}
 			} else {
-				Alert alert = new Alert(AlertType.ERROR, "Carte bancaire expirée");
+				Alert alert = new Alert(AlertType.ERROR, "Un ou plusieurs champs sont vides");
 				alert.showAndWait();
 			}
-		} else {
-			Alert alert = new Alert(AlertType.ERROR, "Un ou plusieurs champs sont vides");
+		} catch (NumberFormatException e) {
+			Alert alert = new Alert(AlertType.ERROR, "Un ou plusieurs champs sont incorrects");
 			alert.showAndWait();
 		}
 	}

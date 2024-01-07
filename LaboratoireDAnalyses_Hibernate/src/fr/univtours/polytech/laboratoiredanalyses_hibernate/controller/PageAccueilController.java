@@ -23,11 +23,22 @@ public class PageAccueilController {
 
 	@FXML
 	private PasswordField passwordFieldMDP;
+	
+	private static long nssPatient;
+
+	public static long getNssPatient() {
+		return nssPatient;
+	}
+
+	public static void setNssPatient(long nssPatient) {
+		PageAccueilController.nssPatient = nssPatient;
+	}
 
 	@FXML
 	protected void handleButtonSeConnecter(ActionEvent event) throws IOException {
 		try {
 			if (Patient.verificationIdentifiants(Long.parseLong(textFieldNSS.getText()), passwordFieldMDP.getText())) {
+				nssPatient = Long.parseLong(textFieldNSS.getText());
 				try
 				{
 					Main.root = FXMLLoader.load(getClass().getResource("/fr/univtours/polytech/laboratoiredanalyses_hibernate/view/ReservationView.fxml"));
