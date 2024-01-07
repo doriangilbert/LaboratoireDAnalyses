@@ -56,6 +56,12 @@ public class Main extends Application {
 		DatabaseLink.getSession().saveOrUpdate(visite6);
 		Visite visite7 = new Visite(LocalDateTime.of(2024, 2, 6, 9, 45), analyse2);
 		DatabaseLink.getSession().saveOrUpdate(visite7);
+		Visite visite8 = new Visite(LocalDateTime.of(2024, 3, 12, 11, 20), analyse2);
+		DatabaseLink.getSession().saveOrUpdate(visite8);
+		Visite visite9 = new Visite(LocalDateTime.of(2024, 3, 26, 10, 25), analyse1);
+		DatabaseLink.getSession().saveOrUpdate(visite9);
+		Visite visite10 = new Visite(LocalDateTime.of(2024, 4, 10, 18, 30), analyse3);
+		DatabaseLink.getSession().saveOrUpdate(visite10);
 
 		visite1.setPatient(patient2);
 		DatabaseLink.getSession().saveOrUpdate(visite1);

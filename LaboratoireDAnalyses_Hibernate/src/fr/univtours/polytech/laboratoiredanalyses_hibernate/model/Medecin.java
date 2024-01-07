@@ -36,6 +36,10 @@ public class Medecin {
 	@JoinTable(name = "Est_autorise", joinColumns = @JoinColumn(name = "nssMedecin"), inverseJoinColumns = @JoinColumn(name = "idAnalyse"))
 	private List<Analyse> listeAnalyses;
 
+	public Medecin() {
+		this.listeAnalyses = new ArrayList<>();
+	}
+	
 	/**
 	 * @param nssMedecin
 	 * @param nomMedecin

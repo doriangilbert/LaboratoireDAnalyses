@@ -34,6 +34,10 @@ public class Patient {
 	@OneToMany(mappedBy = "patient")
 	private List<Visite> listeVisites;
 
+	public Patient() {
+		this.listeVisites = new ArrayList<>();
+	}
+	
 	/**
 	 * @param nssPatient
 	 * @param nomPatient

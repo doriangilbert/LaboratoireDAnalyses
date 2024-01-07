@@ -34,6 +34,10 @@ public class Analyse {
 	@ManyToMany(mappedBy = "listeAnalyses")
 	private List<Medecin> listeMedecins;
 
+	public Analyse() {
+		this.listeMedecins = new ArrayList<>();
+	}
+	
 	/**
 	 * @param nomAnalyse
 	 * @param prixAnalyse

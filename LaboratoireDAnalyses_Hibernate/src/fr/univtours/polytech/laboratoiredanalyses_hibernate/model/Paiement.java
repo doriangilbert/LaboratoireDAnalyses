@@ -37,6 +37,9 @@ public class Paiement {
 	@JoinColumn(name = "idVisite")
 	private Visite visite;
 
+	public Paiement() {
+	}
+	
 	/**
 	 * @param numCarteBancaire
 	 * @param cvvCarteBancaire

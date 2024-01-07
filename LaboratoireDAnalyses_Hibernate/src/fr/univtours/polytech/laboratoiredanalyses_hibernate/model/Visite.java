@@ -38,6 +38,9 @@ public class Visite {
 	@JoinColumn(name = "idAnalyse")
 	private Analyse analyse;
 
+	public Visite() {
+	}
+	
 	/**
 	 * @param dateHeureVisite
 	 * @param analyse
