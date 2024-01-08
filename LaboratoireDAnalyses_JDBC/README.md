@@ -29,15 +29,15 @@ Cette application permet à des patients de réserver et de payer des visites po
 
 ### Modèle conceptuel de données
 
-![Modèle conceptuel de données](../conception/MCDBDLaboAnalysesJDBC.png)
+![Modèle conceptuel de données](../conception/MCDBDLaboAnalyses.png)
 
 ### Modèle logique de données
 
-![Modèle logique de données](../conception/MLDBDLaboAnalysesJDBC.png)
+![Modèle logique de données](../conception/MLDBDLaboAnalyses.png)
 
 ### Diagramme de classes
 
-![Diagramme de classes](../conception/DiagrammeClassesLaboAnalysesJDBC.png)
+![Diagramme de classes](../conception/DiagrammeClassesLaboAnalyses.png)
 
 ## Manuel de l'utilisateur
 
