@@ -7,6 +7,11 @@ import org.hibernate.service.ServiceRegistry;
 
 /**
  * @author GILBERT Dorian
+ * 
+ */
+
+/**
+ * Classe permettant de gérer les opérations liées à Hibernate
  */
 public class HibernateUtil {
 	private static final SessionFactory sessionFactory;

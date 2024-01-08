@@ -16,35 +16,58 @@ import javax.persistence.Table;
  *
  */
 
+/**
+ * Classe représentant un paiement
+ */
 @Entity
 @Table(name = "Paiement")
 public class Paiement {
+	
+	/**
+	 * Attribut privé représentant l'identifiant d'un paiement
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "idPaiement")
 	private int idPaiement;
 
+	/**
+	 * Attribut privé représentant le numéro de carte bancaire d'un paiement
+	 */
 	@Column(name = "numCarteBancaire")
 	private long numCarteBancaire;
 
+	/**
+	 * Attribut privé représentant le CVV d'une carte bancaire d'un paiement
+	 */
 	@Column(name = "cvvCarteBancaire")
 	private int cvvCarteBancaire;
 
+	/**
+	 * Attribut privé représentant la date d'expiration d'une carte bancaire d'un paiement
+	 */
 	@Column(name = "expCarteBancaire")
 	private LocalDate expCarteBancaire;
 
+	/**
+	 * Attribut privé représentant la visite associée à un paiement
+	 */
 	@OneToOne
 	@JoinColumn(name = "idVisite")
 	private Visite visite;
 
+	/**
+	 * Constructeur par défaut d'un paiement
+	 */
 	public Paiement() {
 	}
 	
 	/**
-	 * @param numCarteBancaire
-	 * @param cvvCarteBancaire
-	 * @param expCarteBancaire
-	 * @param visite
+	 * Constructeur d'un paiement
+	 * @param numCarteBancaire Le numéro de carte bancaire du paiement à créer
+	 * @param cvvCarteBancaire Le CVV de la carte bancaire du paiement à créer
+	 * @param expCarteBancaire La date d'expiration de la carte bancaire du paiement à créer
+	 * @param visite La visite associée au paiement à créer
 	 */
 	public Paiement(long numCarteBancaire, int cvvCarteBancaire, LocalDate expCarteBancaire, Visite visite) {
 		this.numCarteBancaire = numCarteBancaire;
@@ -55,75 +78,88 @@ public class Paiement {
 	}
 
 	/**
-	 * @return the idPaiement
+	 * Accesseur en lecture de l'identifiant d'un paiement
+	 * @return idPaiement L'identifiant du paiement
 	 */
 	public int getIdPaiement() {
 		return idPaiement;
 	}
 
 	/**
-	 * @param idPaiement the idPaiement to set
+	 * Accesseur en écriture de l'identifiant d'un paiement
+	 * @param idPaiement Nouvelle valeur de l'identifiant du paiement
 	 */
 	public void setIdPaiement(int idPaiement) {
 		this.idPaiement = idPaiement;
 	}
 
 	/**
-	 * @return the numCarteBancaire
+	 * Accesseur en lecture du numéro de carte bancaire d'un paiement
+	 * @return numCarteBancaire Le numéro de carte bancaire du paiement
 	 */
 	public long getNumCarteBancaire() {
 		return numCarteBancaire;
 	}
 
 	/**
-	 * @param numCarteBancaire the numCarteBancaire to set
+	 * Accesseur en écriture du numéro de carte bancaire d'un paiement
+	 * @param numCarteBancaire Nouvelle valeur du numéro de carte bancaire du paiement
 	 */
 	public void setNumCarteBancaire(long numCarteBancaire) {
 		this.numCarteBancaire = numCarteBancaire;
 	}
 
 	/**
-	 * @return the cvvCarteBancaire
+	 * Accesseur en lecture du CVV d'une carte bancaire d'un paiement
+	 * @return cvvCarteBancaire Le CVV de la carte bancaire du paiement
 	 */
 	public int getCvvCarteBancaire() {
 		return cvvCarteBancaire;
 	}
 
 	/**
-	 * @param cvvCarteBancaire the cvvCarteBancaire to set
+	 * Accesseur en écriture du CVV d'une carte bancaire d'un paiement
+	 * @param cvvCarteBancaire Nouvelle valeur du CVV de la carte bancaire du paiement
 	 */
 	public void setCvvCarteBancaire(int cvvCarteBancaire) {
 		this.cvvCarteBancaire = cvvCarteBancaire;
 	}
 
 	/**
-	 * @return the expCarteBancaire
+	 * Accesseur en lecture de la date d'expiration d'une carte bancaire d'un paiement
+	 * @return expCarteBancaire La date d'expiration de la carte bancaire du paiement
 	 */
 	public LocalDate getExpCarteBancaire() {
 		return expCarteBancaire;
 	}
 
 	/**
-	 * @param expCarteBancaire the expCarteBancaire to set
+	 * Accesseur en écriture de la date d'expiration d'une carte bancaire d'un paiement
+	 * @param expCarteBancaire Nouvelle valeur de la date d'expiration de la carte bancaire du paiement
 	 */
 	public void setExpCarteBancaire(LocalDate expCarteBancaire) {
 		this.expCarteBancaire = expCarteBancaire;
 	}
 
 	/**
-	 * @return the visite
+	 * Accesseur en lecture de la visite associée à un paiement
+	 * @return visite La visite associée au paiement
 	 */
 	public Visite getVisite() {
 		return visite;
 	}
 
 	/**
-	 * @param visite the visite to set
+	 * Accesseur en écriture de la visite associée à un paiement
+	 * @param visite Nouvelle valeur de la visite associée au paiement
 	 */
 	public void setVisite(Visite visite) {
 		this.visite = visite;
 	}
 
+	/**
+	 * Méthode permettant d'obtenir une chaine de caractères représentant un paiement
+	 */
 	@Override
 	public String toString() {
 		return "Paiement [idPaiement=" + idPaiement + ", numCarteBancaire=" + numCarteBancaire + ", cvvCarteBancaire="

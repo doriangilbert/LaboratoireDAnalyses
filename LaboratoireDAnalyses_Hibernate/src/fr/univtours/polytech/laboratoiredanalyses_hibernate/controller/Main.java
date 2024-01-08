@@ -19,11 +19,23 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Classe principale de l'application
+ */
 public class Main extends Application {
 
+	/**
+	 * Attribut public représentant la scène principale de l'application
+     */
 	public static Stage primaryStage;
+	/**
+	 * Attribut public représentant la racine de l'application
+     */
 	public static Parent root;
 
+	/**
+	 * Méthode permettant de peupler les tables de la base de données
+	 */
 	public static void peuplementTables() {
 		Patient patient1 = new Patient(123456789123456L, "Alain", "TERIEUR", "password");
 		DatabaseLink.getSession().saveOrUpdate(patient1);
@@ -76,6 +88,10 @@ public class Main extends Application {
 		DatabaseLink.getSession().saveOrUpdate(medecin2);
 	}
 
+	/**
+	 * Méthode de lancement de l'interface graphique de l'application
+	 * @param primaryStage La scène principale de l'application
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 
@@ -94,6 +110,7 @@ public class Main extends Application {
 	}
 
 	/**
+	 * Méthode principale de l'application
 	 * @param args
 	 */
 	public static void main(String[] args) {
