@@ -76,7 +76,7 @@ public class PaiementController {
 				if (saisieExpCarteBancaire.isAfter(LocalDate.now())) {
 					Visite.reserverVisite(ReservationController.getIdVisite(), PageAccueilController.getNssPatient());
 					Visite.payerVisite(ReservationController.getIdVisite(), Long.valueOf(textFieldNumeroCB.getText()), Integer.valueOf(textFieldCVV.getText()), saisieExpCarteBancaire);
-					Alert alert = new Alert(AlertType.CONFIRMATION, "Paiement validé. Visite réservée. Merci, bonne journée.");
+					Alert alert = new Alert(AlertType.INFORMATION, "Paiement validé. Visite réservée. Merci, bonne journée.");
 					alert.showAndWait();
 					try
 					{
