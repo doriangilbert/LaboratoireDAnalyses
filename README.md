@@ -25,8 +25,8 @@ Cette application permet à des patients de réserver et de payer des visites po
 
 Cette application a été développée en Java en lien avec une base de données MySQL en deux versions distinctes :
 
-- ![LaboratoireDAnalyses_JDBC](./LaboratoireDAnalyses_JDBC/) : Une version faisant appel à JDBC et comportant une interface console
-- ![LaboratoireDAnalyses_Hibernate](./LaboratoireDAnalyses_Hibernate/) : Une version faisant appel à Hibernate et comportant une interface graphique JavaFX
+- [LaboratoireDAnalyses_JDBC](./LaboratoireDAnalyses_JDBC/) : Une version faisant appel à JDBC et comportant une interface console
+- [LaboratoireDAnalyses_Hibernate](./LaboratoireDAnalyses_Hibernate/) : Une version faisant appel à Hibernate et comportant une interface graphique JavaFX
 
 ## Conception
 
@@ -61,5 +61,5 @@ Cette application a été développée en Java en lien avec une base de données
 
 La documentation spécifique à chaque version est disponible dans les fichiers README de chaque version :
 
-- Pour la version JDBC : ![Documentation](./LaboratoireDAnalyses_JDBC/README.md)
-- Pour la version Hibernate : ![Documentation](./LaboratoireDAnalyses_Hibernate/README.md)
+- Pour la version JDBC : [Documentation](./LaboratoireDAnalyses_JDBC/README.md)
+- Pour la version Hibernate : [Documentation](./LaboratoireDAnalyses_Hibernate/README.md)
